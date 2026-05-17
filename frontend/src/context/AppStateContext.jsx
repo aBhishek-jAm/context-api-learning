@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useRef, useCallback } from 'react';
+import React, { createContext, useContext, useState, useRef, useCallback, useEffect } from 'react';
 import { getVideoDetails } from '../data/courses';
+import { useAuth } from './AuthContext';
 
 const AppStateContext = createContext();
 
@@ -12,16 +13,31 @@ export const useAppState = () => {
 };
 
 export const AppStateProvider = ({ children }) => {
-  // User profile state
+  const { user: authUser } = useAuth();
+
+  // User profile state — seeded from auth user when available
   const [userProfile, setUserProfile] = useState({
-    name: 'Abhishek Kumar',
-    email: 'abhishek.kumar@example.com',
+    name: 'Student',
+    email: 'student@example.com',
     role: 'student',
     learningLevel: 'intermediate',
-    institution: 'IIT Delhi',
-    bio: 'Computer Science student passionate about AI and Machine Learning.',
-    joinedAt: '2025-08-15T00:00:00.000Z',
+    institution: '',
+    bio: '',
+    joinedAt: new Date().toISOString(),
   });
+
+  // Sync profile when auth user changes (login/logout)
+  useEffect(() => {
+    if (authUser && authUser.role === 'student') {
+      setUserProfile(prev => ({
+        ...prev,
+        name: authUser.name || prev.name,
+        email: authUser.email || prev.email,
+        role: authUser.role || 'student',
+        learningLevel: authUser.learningLevel || prev.learningLevel,
+      }));
+    }
+  }, [authUser]);
 
   // Chat state — persists across route changes
   const [chatMessages, setChatMessages] = useState([

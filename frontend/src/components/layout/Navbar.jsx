@@ -1,8 +1,17 @@
 import React from 'react';
-import { BookOpen, User, Settings, Bell } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { BookOpen, User, LogOut, Bell } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-6 flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -19,12 +28,26 @@ const Navbar = () => {
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-slate-900"></span>
         </button>
-        <button className="p-2 text-slate-400 hover:text-white transition-colors">
-          <Settings className="w-5 h-5" />
-        </button>
+
+        {/* User info */}
+        {user && (
+          <div className="hidden sm:flex items-center gap-2 text-sm text-slate-400">
+            <span className="font-medium text-slate-300">{user.name}</span>
+          </div>
+        )}
+
         <Link to="/profile" className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center cursor-pointer hover:border-blue-500/50 transition-colors">
           <User className="w-5 h-5 text-slate-300" />
         </Link>
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-3 py-2 bg-slate-800 border border-slate-700 hover:border-red-500/50 hover:text-red-400 text-slate-400 rounded-lg text-sm font-medium transition-colors"
+          title="Logout"
+        >
+          <LogOut className="w-4 h-4" />
+          <span className="hidden sm:inline">Logout</span>
+        </button>
       </div>
     </nav>
   );
