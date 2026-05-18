@@ -6,6 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAppState } from '../../context/AppStateContext';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const levelConfig = {
   beginner: { color: 'emerald', label: 'Beginner', emoji: '🌱' },
   intermediate: { color: 'amber', label: 'Intermediate', emoji: '📚' },
@@ -82,7 +84,7 @@ const ChatPanel = () => {
     const startTime = performance.now();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/chat', {
+      const response = await axios.post(`${API_URL}/api/chat`, {
         videoId: currentVideoId,
         query: userQuery,
       });

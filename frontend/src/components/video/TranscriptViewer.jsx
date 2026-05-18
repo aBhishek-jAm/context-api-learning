@@ -3,6 +3,8 @@ import { AlignLeft, Database, Loader2, CheckCircle } from 'lucide-react';
 import axios from 'axios';
 import { useAppState } from '../../context/AppStateContext';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const formatTime = (seconds) => {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -17,10 +19,10 @@ const TranscriptViewer = () => {
     setIngesting(true);
     try {
       // Step 1: Ingest transcript
-      await axios.post('http://localhost:5000/api/transcripts/ingest', { videoId: currentVideoId });
+      await axios.post(`${API_URL}/api/transcripts/ingest`, { videoId: currentVideoId });
       
       // Step 2: Fetch the saved transcript to display
-      const res = await axios.get(`http://localhost:5000/api/transcripts/${currentVideoId}`);
+      const res = await axios.get(`${API_URL}/api/transcripts/${currentVideoId}`);
       if (res.data && res.data.chunks) {
         setTranscriptChunks(res.data.chunks);
       }
