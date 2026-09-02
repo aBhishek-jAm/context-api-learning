@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+pnpm-lock.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs and Editors
+.vscode/
+.idea/
+.vs/
+*.swp
+*.swo
+.qodo/
+
+# OS Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Frontend / Build Output
+dist/
+build/
+.next/
+out/
+coverage/
+.cache/
